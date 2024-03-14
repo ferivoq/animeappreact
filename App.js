@@ -1,20 +1,36 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { Button } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import HomeScreen from './HomeScreen';
+import AnimeDetailsScreen from './AnimeDetailsScreen';
+import ErrorScreen from './ErrorScreen';
+import SearchScreen from './SearchScreen';
+import { Feather } from '@expo/vector-icons';
 
-export default function App() {
+const Stack = createNativeStackNavigator();
+
+function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen 
+          name="Home" 
+          component={HomeScreen}
+          options={({ navigation }) => ({
+            title: 'Home',
+            headerRight: () => (
+               <Feather name="search" size={25} color="black" onPress={() => navigation.navigate('Search')} />
+            ),
+          })}
+        />
+        <Stack.Screen name="Details" component={AnimeDetailsScreen} />
+        <Stack.Screen name="Error" component={ErrorScreen} />
+        <Stack.Screen name="Search" component={SearchScreen} />
+        {/* Add your Search screen in the stack navigator */}
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
